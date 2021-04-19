@@ -35,11 +35,29 @@ def main(argv):
     if len(argv) == 1:
         parser.print_help()
     else:
-        # process args
-        pass
-    '''
-    raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), f_in)
-    '''
+        from mmanager.fileshandler import FilesHandlers
+        from mmanager.dbhandler import DbHandler
+
+        app_paths = {
+            'root': APP_PATH,
+            'cwd': APP_CWD
+        }
+
+        fh = FilesHandlers(app_paths)
+        check_config = fh.check_app_datas()
+
+        if not check_config['db']:
+            dbpth = f'{APP_PATH}/data/qlmm.db'
+            print(f'Un fichier de configuration de qlmm est introuvable... Emplacement attendu:\n{dbpth}')
+            raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), 'qlmm.db')
+
+        if not check_config['config']:
+            configpth
+            print(f'Un fichier de configuration de qlmm est introuvable... Emplacement attendu:\n{configpth}')
+            raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), 'config.json')
+
+        dbh = DbHandler(f'{APP_PATH}/data/qlmm.db')
+
     return EXIT_SUCCESS
 
 if __name__ == '__main__':
