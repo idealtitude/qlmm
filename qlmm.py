@@ -18,9 +18,11 @@ APP_CWD = os.getcwd()
 def args_parsing():
     parser = argparse.ArgumentParser(prog='qlmm', description='LQMM, Quick and Light Memos Manager', epilog='Help and documentation at https://github.com/idealtitude/qlmm')
 
+    parser.add_argument('name', nargs='?', help='Memo or category name')
     parser.add_argument('-n', '--new', nargs=1, choices=['c', 'cat', 'category', 'm', 'mem', 'memo'], help='Add a new category or a new memo')
-    parser.add_argument('-e', '--edit', nargs=1,  choices=['c', 'cat', 'category', 'm', 'mem', 'memo'], help='Add a category or a memo')
-    parser.add_argument('-s', '--search', nargs=1, help='Search memo(s)')
+    parser.add_argument('-e', '--edit', nargs=1, choices=['c', 'cat', 'category', 'm', 'mem', 'memo'], help='Add a category or a memo')
+    parser.add_argument('-l', '--list', action='store_true', help='List categories')
+    parser.add_argument('-s', '--search', nargs='+', help='Search memo(s)')
     parser.add_argument('-v', '--version', action='version', version=f'%(prog)s {__version__}')
 
     return parser
@@ -38,7 +40,7 @@ def main(argv):
     '''
     raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), f_in)
     '''
-    return 0
+    return EXIT_SUCCESS
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv))
